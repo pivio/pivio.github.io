@@ -1,11 +1,10 @@
 all:
-	rm -rf ../../docs
-	mkdir -p ../../docs
+	rm -rf ../../docs/*
 	asciidoctor -r asciidoctor-diagram -D ../../docs -a toc -d book index.adoc
 clean:
-	rm -rf ../../docs
+	rm -rf ../../docs/*
 publish:
-	cd ../../docs/
+	cd ../../docs
 	git add --all *
 	git commit -a -m 'New version'
 	git push
