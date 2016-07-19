@@ -203,7 +203,8 @@ After that the web view is available on port 8080, e.g. http://localhost:8080 .
 The WebView is looking for a configuration for the server in the ``pivio-conf/server_config.yaml`` file.
 The default is:
 
-```
+[source,yaml]
+----
 api: http://localhost:9123/
 js_api: http://localhost:9123/
 mainurl: http://localhost:8080/
@@ -217,11 +218,11 @@ pages:
   - description: Feed
     url: /app/feed
     id: tabFeed
-```
+----
 
 This describes where all the relevant parts of the pivio components are and how the menu structure should look like.
 
-* ``api`` : The location of the Server Rest API 
+* ``api`` : The location of the Server Rest API
 * ``js_api`` : The location of the Rest API for Javascript, this can be different depending on Virtual Machine / Docker mix
 * ``mainurl`` : The location of the main WebView
 * ``pages`` : Describes each menu entry with

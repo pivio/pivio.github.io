@@ -1281,7 +1281,7 @@ The default is:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code>api: http://localhost:9123/
+<pre class="prettyprint highlight"><code class="language-yaml" data-lang="yaml">api: http://localhost:9123/
 js_api: http://localhost:9123/
 mainurl: http://localhost:8080/
 pages:
@@ -1302,10 +1302,10 @@ pages:
 <div class="ulist">
 <ul>
 <li>
-<p><code>api</code> : The location of the REST API (mainly for backend components)</p>
+<p><code>api</code> : The location of the Server Rest API</p>
 </li>
 <li>
-<p><code>js_api</code> : The location of the REST API for Javascript, this can be different depending on Virtual Machine / Docker mix</p>
+<p><code>js_api</code> : The location of the Rest API for Javascript, this can be different depending on Virtual Machine / Docker mix</p>
 </li>
 <li>
 <p><code>mainurl</code> : The location of the main WebView</p>
@@ -1361,7 +1361,7 @@ can query it to get all information needed. An example output would be:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code>{
+<pre class="prettyprint highlight"><code class="language-json" data-lang="json">{
   "pages": [
     {
       "description": "Overview",
@@ -1399,7 +1399,7 @@ The main WebView uses semantic-ui as style.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code>...
+<pre class="prettyprint highlight"><code class="language-javascript" data-lang="javascript">...
 $.ajax({
     url: pivioUrl + '/config',
     dataType: 'json',
@@ -1410,8 +1410,7 @@ $.ajax({
         var source = $("#menu_template").html();
         var template = Handlebars.compile(source);
         $('#main_menu').append(template(pivioConfig.pages));
-        $("#&lt;&lt;&lt;YOUR COMPONENT ID&gt;&gt;&gt;").addClass("active");
-...</code></pre>
+        $("#&lt;&lt;&lt;YOUR COMPONENT ID&gt;&gt;&gt;").addClass("active");</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1419,7 +1418,7 @@ $.ajax({
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code>...
+<pre class="prettyprint highlight"><code class="language-html" data-lang="html">...
 &lt;script id="menu_template" type="text/x-handlebars-template"&gt;
     &lt;div class="item"&gt;
         &lt;div class="ui animated  button" tabindex="0"&gt;

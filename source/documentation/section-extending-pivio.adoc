@@ -17,7 +17,8 @@ Your own extension can get the information like API endpoints and existing menu 
 The WebView exposes the configuration of the current setup under the ``http://<server>:<port>/config``. You
 can query it to get all information needed. An example output would be:
 
-```
+[source,json]
+----
 {
   "pages": [
     {
@@ -40,8 +41,8 @@ can query it to get all information needed. An example output would be:
   "mainUrl": "http://localhost:8080/",
   "jsApiAddress": "http://localhost:9123/"
 }
+----
 
-```
 These are all the information you need to hook into the menu system of the main WebView and
 gives you all relevant information about query capabilities. See <<section-software-webview, WebView>>
 documentation more information.
@@ -51,7 +52,8 @@ The main WebView uses semantic-ui as style.
 
 An example javascript snippet could look like this:
 
-```
+[source,javascript]
+----
 ...
 $.ajax({
     url: pivioUrl + '/config',
@@ -64,12 +66,12 @@ $.ajax({
         var template = Handlebars.compile(source);
         $('#main_menu').append(template(pivioConfig.pages));
         $("#<<<YOUR COMPONENT ID>>>").addClass("active");
-...
-```
+----
 
 A matching handlebars template would look like this:
 
-```
+[source, html]
+----
 ...
 <script id="menu_template" type="text/x-handlebars-template">
     <div class="item">
@@ -90,4 +92,4 @@ A matching handlebars template would look like this:
 <div id="main_menu" class="ui pointing menu">
 </div>
 ...
-```
+----
