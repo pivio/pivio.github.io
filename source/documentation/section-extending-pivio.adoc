@@ -1,0 +1,93 @@
+
+[[section-extending-pivio]]
+== Extending Pivio
+
+=== Data
+
+As mentioned in the <<section-dataformat, Dataformat section>> you can include your own data structures
+as you see a need for it.
+
+=== View
+
+To display them you can roll your own service and just use the API to query the data. If you want to use
+the WebView client provided by Pivio you add links to the menu bar of the view to link to your extension.
+This way there is no need to change the core WebView, the connection is just done with hyper links.
+Your own extension can get the information like API endpoints and existing menu structure form the WebView.
+
+The WebView exposes the configuration of the current setup under the ``http://<server>:<port>/config``. You
+can query it to get all information needed. An example output would be:
+
+```
+{
+  "pages": [
+    {
+      "description": "Overview",
+      "id": "tabOverview",
+      "url": "http://localhost:8080//app/overview"
+    },
+    {
+      "description": "Query",
+      "id": "tabQuery",
+      "url": "http://localhost:8080//app/query"
+    },
+    {
+      "description": "Feed",
+      "id": "tabFeed",
+      "url": "http://localhost:8080//app/feed"
+    }
+  ],
+  "apiAddress": "http://localhost:9123/",
+  "mainUrl": "http://localhost:8080/",
+  "jsApiAddress": "http://localhost:9123/"
+}
+
+```
+These are all the information you need to hook into the menu system of the main WebView and
+gives you all relevant information about query capabilities. See <<section-software-webview, WebView>>
+documentation more information.
+
+Based on these information you can build your own menu system, query and show your content.
+The main WebView uses semantic-ui as style.
+
+An example javascript snippet could look like this:
+
+```
+...
+$.ajax({
+    url: pivioUrl + '/config',
+    dataType: 'json',
+    cache: false,
+    success: function configure(data) {
+        pivioConfig = data;
+
+        var source = $("#menu_template").html();
+        var template = Handlebars.compile(source);
+        $('#main_menu').append(template(pivioConfig.pages));
+        $("#<<<YOUR COMPONENT ID>>>").addClass("active");
+...
+```
+
+A matching handlebars template would look like this:
+
+```
+...
+<script id="menu_template" type="text/x-handlebars-template">
+    <div class="item">
+        <div class="ui animated  button" tabindex="0">
+            <div class="visible content">pivio</div>
+            <div class="hidden content">
+                <i class="heart icon"></i>
+            </div>
+        </div>
+    </div>
+
+    {{#each this}}
+    <a class="blue item " id="{{this.id}}" href="{{this.url}}">{{this.description}}</a>
+    {{/each}}
+</script>
+
+
+<div id="main_menu" class="ui pointing menu">
+</div>
+...
+```

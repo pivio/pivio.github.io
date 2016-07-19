@@ -1,0 +1,330 @@
+[[section-dataformat]]
+== Data format
+
+The data format is somewhat generic and you can use any attributes you need for your use case.
+However, we tuned the server backed elasticsearch a bit to support the structure we think is useful.
+
+The examples are all in yaml format. This is just a convenience since we think it is easier to read and write than json. A suitable client  on the other hand must to speak json to the server, so he needs to convert it.
+
+=== Location
+
+You two choices to specify your metadata of your code and services.
+
+- In one single ``pivio.yaml`` file of the root of the source code
+- In a directory called ``pivio`` in the root of the source code
+
+The content is structured in both cases the same. In the single file case you need to have section as keys like ``general``, ``network`` and ``software_dependencies``. In the latter case you can split the content in multiple files in the subdirectory `pivio`. If you have both ``pivio.yaml`` and ``pivio`` directory the client should exit with an error message.
+
+So what's the different use cases for both styles? In your own source code you will usually use the directory based approach, since the config file can be very long, especially when you leave all the (useful) comments in. So we split it into much smaller section, so it all should fit on one page in your editor.
+So why use the single file approach at all? For modeling certain aspect of the services you need, like 3rd party services you access, it is very tiring to split the little information you have/need into multiple files. This is usually the case for a single file configuration. Since it is easy to start with a single file most projects will start with that. After some growth, simply move the ``pivio.yaml`` in the ``pivio`` sub directory and begin adding data in other files. It is recommended to split them by sections.
+
+So a config directory version would look like this:
+
+```
++- ...
++- src/
++- pivio/
+|   +- pivio.yaml
+|   +- context.yaml
+|   +- runtime.yaml
++- readme.md
++- ...
+```
+and a single file version more like this:
+
+```
++- ...
++- src/
++- pivio.yaml
++- readme.md
++- ...
+```
+
+=== What's inside
+
+Every section, except some attributed of the general section, is optional. The idea at the moment is that every section will be represented correspondingly in the UI somehow.
+
+Convention: All keys are lower case and words are connected by '_'. No camelcase.
+
+==== pivio.yaml
+
+Pivio needs certain *mandatory* fields:
+
+- **id** Unique id in pivio. You can ask the pivio service for a unique id.
+- **name** The name of the artefact. This is intended for humans.
+- **short_name** A very brief name for the service.
+- **type** The type of this artefact. Values could be `service`, `library` or `mobile_app`.
+- **owner** Which team is responsible for this artefact.
+- **description** What does this service do?
+
+===== contact
+Who should be contacted if one has a question.
+
+===== vcs
+Where can I find the source code? A client who parses this file might choose to generate it from the code which it has at hand (if it is under source control).
+
+===== tags
+
+Add tags.
+
+===== lifecycle
+
+In which lifecycle is this component? Only in development, in production or out of service.
+
+
+
+===== links
+All sort of links which might be interesting. Candidates are
+
+
+- homepage
+- buildchain
+- api docs
+
+Example:
+
+[source,yaml]
+----
+id: next-generation-print-2342-2413-9189-1990
+name: Next Generation Print Service
+short_name: NGPS
+type: service
+owner: Team Goldfinger
+description: Prints all kinds of things. Now with 3D printing support.
+vcs: git://git.vcs.local/UBP
+contact: Auric Goldfinger
+lifecycle: production
+tags:
+ - Old
+ - Demo
+links:
+  homepage: http://wiki.local/ubp
+  buildchain: http://ci.local/ubp
+  api_docs: http://docs.local/ubp-api
+----
+
+==== service.yaml
+
+
+===== provides
+What and where does this artefact provides services?
+
+`description` Should be a human readable description.
+`service_name` is the  unique identification of the particular interface. `port`, `protocol` and `transport_protocol` are self describing.
+
+===== depends_on
+
+**internal**
+
+To which other `service_name` (from `provides`) services does this service talk? Option: service_name
+
+If you don't know the service name, you can specify the `short_name` of this service with appended '\_' and the port number (e.g. `NGPS_8791`). This has the disadvantage if the port number changes your resulting data might be incorrect (Option: short_name_port)
+
+`why` defines why this connection is needed.
+
+**external**
+
+To which external `target` needs this artefact to talk to? This is meant to show if this service talks to another one outside of your system, like a public API of another service provider 'in the cloud'.
+
+What is the `transport_protocol` and `why` is it needed? If it access the external resource `via` another service, it can be defined.
+
+Example:
+
+:source-highlighter: prettify
+
+[source,yaml]
+----
+service:
+ provides:
+    - description: REST API
+      service_name: uber-bill-print-service
+      protocol: https
+      port: 8443
+      transport_protocol: tcp
+     public_dns:
+       - api.demo-company.com
+       - soap.demo-company.io
+    - description: SOAP API (legacy)
+      service_name: print-service
+      protocol: https
+      port: 80
+      transport_protocol: tcp
+
+  depends_on:
+    internal:
+      - service_name: print-service
+            why: need to print
+      - service_name: gateway-service
+      - short_name: NGPS
+            port: 8719
+    external:
+      - target: https://api.superdealz.me:443
+        transport_protocol: tcp
+        via: proxy-service
+        why: Need to sync data with it.
+      - target: mqtt://192.xxx.xxx.xxx:5028
+        transport_protocol: tcp
+        why: Get the latest Dealz.
+----
+
+
+==== context.yaml
+
+If the service does belong to a bounded context it can be specified in: `belongs_to_bounded_context`. General rule is that every service belongs to a bounded context.
+
+Which `visibility` does this service have?
+
+- `private`: intended usage is only by the owner
+- `public`: exposes an api for other owners.
+
+Components that are under development, experimental, not supported, being replaced or to change without warning should be `private`.
+
+[source,yaml]
+----
+context:
+  belongs_to_bounded_context: Delivery
+  visibility: private
+----
+
+==== runtime.yaml
+
+Which requirements does this service have on the runtime? This is used for sizing the machine, VM or container.
+On what kind of `host_type` is this artefact running? Values could be:
+
+- Metal
+- VM
+- Docker
+
+In which `network_zone` is this service located? You choose what the values should be, e.g. DMZ, BACKEND, CORE, DATABASE.
+
+[source,yaml]
+----
+runtime:
+  cpu: L
+  ram: S
+  disk: XL
+  host_type: VM
+  network_zone: BACKEND
+----
+
+==== software_dependencies.yaml
+
+This section might be generated by a client automatically usually by reading the generated licenses information from the corresponding build tool.
+
+If however you need to specify the software dependencies by hand, this is the place to be. Specify `name`, the `version`, which `license` is used and the `url` of the license.
+
+[source,yaml]
+----
+software_dependencies:
+  - name: PHP
+    version: 3.0.1
+    licenses:
+      - name: PHP License
+        url: http://php.net/license/3_01.txt
+  - name: GNU C
+    version: 4.9.2
+    licenses:
+      - name: GPL
+        url: https://gcc.gnu.org/onlinedocs/libstdc++/manual/license.html
+  - name: Strange Framework
+    version: 1.0
+    licenses:
+      - name: GPL
+        url: https://gcc.gnu.org/onlinedocs/libstdc++/manual/license.html
+----
+
+=== Custom extensions
+
+If you need to have your own keys in this configuration you can simply add your own key word/yaml file.
+
+Example:
+
+==== my_company.yaml
+
+[source,yaml]
+----
+host_group: XYZ
+os: debian
+----
+
+=== Talking JSON?
+
+Since the server works on json, you could use it to feed data into it. Here is the `example-singlefile/pivio.yaml` example on how it would look like in json:
+
+You can use the ``-dry`` switch on the official client to see the transformed json from a standard yaml file.
+
+[source,json]
+----
+{
+  "owner": "Team Goldfinger",
+  "vcs": "git://git.vcs.local/UBP",
+  "description": "Prints all kinds of things. Now with 3D printing support.",
+  "runtime": {
+    "disk": "XL",
+    "network_zone": "BACKEND",
+    "cpu": "L",
+    "host_type": "VM",
+    "ram": "S"
+  },
+  "type": "service",
+  "tags": [
+    "Architecture"
+  ],
+  "service": {
+    "depends_on": {
+      "internal": [
+        "print-service",
+        "gateway-service"
+      ],
+      "external": [
+        {
+          "why": "Need to sync data with it.",
+          "transport_protocol": "tcp",
+          "target": "https://api.superdealz.me:443",
+          "via": "proxy-service"
+        },
+        {
+          "why": "Get the latest Dealz.",
+          "transport_protocol": "tcp",
+          "target": "mqtt://192.xxx.xxx.xxx:5028"
+        }
+      ]
+    },
+    "provides": [
+      {
+        "protocol": "https",
+        "port": "8443",
+        "service_name": "uber-bill-print-service",
+        "description": "REST API",
+        "public_dns": [
+          "api.demo-company.com"
+        ],
+        "transport_protocol": "tcp"
+      },
+      {
+        "protocol": "http",
+        "port": "80",
+        "service_name": "print-service",
+        "description": "SOAP API (legacy)",
+        "public_dns": [
+          "soap.demo-company.io"
+        ],
+        "transport_protocol": "tcp"
+      }
+    ]
+  },
+  "contact": "Auric Goldfinger",
+  "name": "Next Generation Print Service",
+  "context": {
+    "visibility": "private",
+    "belongs_to_bounded_context": "Delivery"
+  },
+  "short_name": "NGPS",
+  "links": {
+    "api_docs": "http://docs.local/ubp-api",
+    "buildchain": "http://ci.local/ubp",
+    "homepage": "http://wiki.local/ubp"
+  },
+  "id": "next-generation-print-2342-2413-9189-1990"
+}
+----

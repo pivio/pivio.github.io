@@ -1,0 +1,11 @@
+
+== Why Pivio ?
+
+If you have many services composing your platform it is easy to get lost.
+This is especially true for the a microservice environment. While you might want a
+great independence of the teams (which do have everything they need under their
+  control) reusing services sometimes is advisable. This might be services like
+  authentication or a central user service.
+
+A growing number of service means also a challenge not only for developers. Which service
+runs where? What does it do? Who is responsible for that?

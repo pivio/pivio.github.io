@@ -1,0 +1,225 @@
+[[section-software]]
+== Software
+
+To get up and running you need to have the backend server and the client running.
+As explained earlier, you strictly do not need the client, you could just send json
+or write your own parser for the pivio.yaml file.
+
+=== Building the software
+
+The code is available from the Github repository at: https://github.com/pivio/
+
+- Client: https://github.com/pivio/pivio-client
+- Server: https://github.com/pivio/pivio-server
+- Web: https://github.com/pivio/pivio-web
+
+All code is written in Java 8 and needs Gradle for building.
+Change into each directory and issue ``gradle build`` to compile, test and package.
+The ready to use jar file will be located in ``build/libs``.
+
+=== Client
+
+The client gathers the information about the software. You would run it like this
+
+``
+java -jar build/libs/pivio.jar
+``
+
+This will
+
+1. look for a ``pivio.yaml`` in the current directory
+2. read a generated dependency file from maven, sbt or gradle. You need to generate this information beforehand.
+3. read the vcs root information. At the moment git and svn are supported.
+
+At the end everything is converted to json and sent to the server. If none is
+specified http://localhost:9123 is assumed.
+
+==== Command Line Options
+
+[source]
+----
+
+usage: pivio
+ -config <arg>               Defines the config for all parameters. This
+                             is a properties file with some the switches
+                             listed here. Default location is
+                             /etc/pivio-client.properties.
+ -defaultconfigname <arg>    Defines the name of your yaml metadata. The
+                             suffix '.yaml' will be always appended.
+                             Defaults to 'pivio'.
+ -dry                        Do a dry run, do not submit anything but
+                             output it to stdout.
+ -file <arg>                 Full path to a file containing the data in
+                             yaml format. Does not have to be named
+                             pivio.yaml. This overwrites the -source
+                             switch and only information in this file will
+                             be collected.
+ -gitremote <arg>            Uses the given argument as origin for Git VCS
+                             remote detection (default: origin). This is
+                             useful if you have multiple remotes
+                             configured and/or differently named.
+ -help                       This Help.
+ -manualdependencies <arg>   Defines the file which holds manual defined
+                             dependencies. Defaults to:
+                             pivio/dependencies.yaml.
+ -piviofilenotfoundexit0     Fail with Exit(0) when a pivio document was
+                             not found in the source directory. Default is
+                             1 in such as case.
+ -serviceurl <arg>           The url of the pivio service (default:
+                             http://localhost:9123/document).
+ -source <arg>               The directory with the sources containing the
+                             pivio.yaml file.
+ -uploadfailexit1            Fail with Exit(1) when document can not be
+                             uploaded. Default is 0 in such a case.
+ -verbose                    Prints more information.
+ -yamldir <arg>              All *.yaml files in this directory will be
+                             read and each file is treated as self
+                             contained definition of an artefact.
+
+Usage: java -jar ./pivio.jar -source /home/ci/source/customerservice
+~/Source/oliver/pivio/documentation
+
+----
+
+You can define certain defaults in a properties file which will be used if it exists. The default location for this is /etc/pivio.properties (can be configured via -config switch).
+
+You can configure the following values:
+
+- source
+- gitremote
+- serviceurl
+- file
+- defaultfile
+- yamldir
+- manualdependencies
+
+The format is key:value as in Java properties files.
+
+==== Exit codes
+
+If a Yaml file is not a valid yaml file the client will exit with code 1.
+
+==== Dependencies & License information
+
+Pivio can leverage exiting tools to gather information about software dependencies and their
+license types. At the moment Pivio supports three build tools and their tooling to
+get this kind of information.
+
+*Maven*
+
+If your code uses Maven you need to run the following command:
+ ``mvn org.codehaus.mojo:license-maven-plugin:download-licenses``.
+
+*Gradle*
+
+To get started with gradle you need to include a plugin in your configuration.
+
+[source]
+----
+
+buildscript {
+    repositories {
+        maven { url "http://javarepo.bis.epost-dev.de/nexus/content/groups/public" }
+    }
+    dependencies {
+         classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
+    }
+}
+apply plugin: 'license'
+
+// most projects doesn't contain a LICENSE file so ignore this step
+licenseMain.enabled = false
+licenseTest.enabled = false
+
+downloadLicenses {
+    includeProjectDependencies = true
+    // if you have dependencies but result is empty then use compile instead of runtime dependencies
+    // dependencyConfiguration = 'compile'
+
+    // recommend license mapping to avoid duplications
+    ext.apacheTwo = license('Apache License, Version 2.0', 'http://opensource.org/licenses/Apache-2.0')
+    ext.mit = license('MIT License', 'http://www.opensource.org/licenses/mit-license.php')
+
+    aliases = [
+       (apacheTwo) : ['The Apache Software License, Version 2.0', 'Apache 2', 'Apache License Version 2.0', 'Apache License, Version 2.0', 'Apache License 2.0', license('Apache License', 'http://www.apache.org/licenses/LICENSE-2.0')],
+       (mit) : ['The MIT License (MIT)', license('New BSD License', 'http://www.opensource.org/licenses/bsd-license.php')]
+    ]
+}
+
+----
+To enable Pivio to use this you need to run: ``gradle downloadLicenses``.
+
+*SBT*
+
+If you use SBT you need to add the following part to one of your build files (e.g. ``license.sbt``).
+```
+addSbtPlugin("com.typesafe.sbt" % "sbt-license-report" % "1.0.0")
+```
+
+Then run ``sbt dumpLicenseReport``.
+
+
+=== Server
+
+The server is the backend and uses elasticsearch to store and query the information.
+Two rest end-points will be exposed.
+
+- ``/document``
+- ``/changeset``
+
+TODO: API
+
+
+Since the server is using elasticsearch you need to have a running elasticsearch 1.7.x.
+Download it from https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.5.zip .
+Unzip it and start it with ``bin/elasticsearch``.
+
+This is how you start the pivio-server:
+
+[source]
+----
+
+java -jar build/libs/pivio-server-1.0.0.jar
+
+----
+
+By default it listens on port 9123. The pivio client connects to this server and this port.
+
+[[section-software-webview]]
+=== Webview
+
+To start the web view use:
+
+[source]
+----
+
+java -jar build/libs/view.jar
+
+----
+
+After that the web view is available on port 8080, e.g. http://localhost:8080 .
+
+The WebView is looking for a configuration for the server in the ``pivio-conf/server_config.yaml`` file.
+The default is:
+
+```
+api: http://localhost:9123/
+js_api: http://localhost:9123/
+mainurl: http://localhost:8080/
+pages:
+  - description: Overview
+    url: /app/overview
+    id: tabOverview
+  - description: Query
+    url: /app/query
+    id: tabQuery
+  - description: Feed
+    url: /app/feed
+    id: tabFeed
+```
+
+This describes where all the relevant parts of the pivio components are and how the menu structure should look like.
+
+=== Running in Docker
+
+You can mount the ``pivio-conf`` volume with your own configuration file.

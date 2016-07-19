@@ -1,0 +1,67 @@
+
+== Key concepts
+
+Pivio is in it's core a very simple idea. It's Json files in a database. The real
+value is in the data the developers provide. Pivio just collects it in a central
+place and makes it searchable.
+
+Pivio will only consists of three main parts.
+
+- The upload client
+- The simple, domain specific REST API to elasticsearch
+- A Webview
+
+This is what you can start with. The real power comes from extension and from tools
+that query the database which are not part of core Pivio.
+
+The Pivio WebView provides a simple way to browse the in described data format. It also
+offers a simple QueryEditor and a feed for what changed in the platform.
+
+With the client you can upload any data, not just the one described in the <<section-dataformat, data format section>>.
+This gives you the power to upload and search any data you think might be useful for your use case.
+The only downside is that it will not be displayed in the WebView. To see it nevertheless the WebView
+can be extended to include your own standalone view of your custom data. See <<section-extending-pivio, Extending Pivio>>.
+
+
+[ditaa, concept.png]
+....
+                                                               +----------------+
+                          +------------------------------------| Commandline    |
+                          |                                    | Clients (curl) |
+                          |                                    | cYEL           |
+                          |                                    +----------------+
+                          |                                    +--------------+
+                          |                                    | Your         |
+                          |                                    | Commandline  |
+                          |    +-------------------------------| Tools        |
+                          |    |                               +--------------+
+                          V    V
++--------+ upload      +---------+  query        +---------+
+| Pivio  | ----------->| Pivio   | <-------------| Pivio   | <--------+
+| Client | document(s) | Server  |  document(s)  | Webview |          |
+| cBLU   |             | cBLU    |               | cBLU    |          |
++--------+             +---------+               +---------+          |
+                         ^    ^                                 +--------------+
+                  store  |    |                                 | Browser      |
+               documents |    +----------------------+          |  cYEL        |
+                         V                           |          +--------------+
+                 +----------------+             +------------+         |
+                 | Elasticsearch  |             | Your       |<--------+
+                 | cGRE           |             | Pivio View |
+                 +----------------+             | Extension  |
+                                                +------------+
+
+
+
+
+
+
+Legend:
+
+
++-------------+ +----------------------+ +------------+ +---------+
+| Pivio Tools | | Third Party          | | Your Tools | | Clients |
+| cBLU        | | (Part of Pivio) cGRE | |            | | cYEL    |
++-------------+ +----------------------+ +------------+ +---------+
+
+....
