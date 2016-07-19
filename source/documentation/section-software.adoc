@@ -14,7 +14,8 @@ The code is available from the Github repository at: https://github.com/pivio/
 - Web: https://github.com/pivio/pivio-web
 
 All code is written in Java 8 and needs Gradle for building.
-Change into each directory and issue ``gradle build`` to compile, test and package.
+Change into each directory and issue ``gradle build`` to compile, test and package. A ``gradlew`` wrapper is provided
+if you do not have gradle installed.
 The ready to use jar file will be located in ``build/libs``.
 
 === Client

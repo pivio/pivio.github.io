@@ -18,6 +18,8 @@ The content is structured in both cases the same. In the single file case you ne
 So what's the different use cases for both styles? In your own source code you will usually use the directory based approach, since the config file can be very long, especially when you leave all the (useful) comments in. So we split it into much smaller section, so it all should fit on one page in your editor.
 So why use the single file approach at all? For modeling certain aspect of the services you need, like 3rd party services you access, it is very tiring to split the little information you have/need into multiple files. This is usually the case for a single file configuration. Since it is easy to start with a single file most projects will start with that. After some growth, simply move the ``pivio.yaml`` in the ``pivio`` sub directory and begin adding data in other files. It is recommended to split them by sections.
 
+IMPORTANT: The current client implementation only supports the single file approach at the moment.
+
 So a config directory version would look like this:
 
 ```

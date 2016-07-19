@@ -592,6 +592,18 @@ However, we tuned the server backed elasticsearch a bit to support the structure
 <p>So what&#8217;s the different use cases for both styles? In your own source code you will usually use the directory based approach, since the config file can be very long, especially when you leave all the (useful) comments in. So we split it into much smaller section, so it all should fit on one page in your editor.
 So why use the single file approach at all? For modeling certain aspect of the services you need, like 3rd party services you access, it is very tiring to split the little information you have/need into multiple files. This is usually the case for a single file configuration. Since it is easy to start with a single file most projects will start with that. After some growth, simply move the <code>pivio.yaml</code> in the <code>pivio</code> sub directory and begin adding data in other files. It is recommended to split them by sections.</p>
 </div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The current client implementation only supports the single file approach at the moment.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>So a config directory version would look like this:</p>
 </div>
@@ -1022,7 +1034,8 @@ or write your own parser for the pivio.yaml file.</p>
 </div>
 <div class="paragraph">
 <p>All code is written in Java 8 and needs Gradle for building.
-Change into each directory and issue <code>gradle build</code> to compile, test and package.
+Change into each directory and issue <code>gradle build</code> to compile, test and package. A <code>gradlew</code> wrapper is provided
+if you do not have gradle installed.
 The ready to use jar file will be located in <code>build/libs</code>.</p>
 </div>
 </div>
