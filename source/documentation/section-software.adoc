@@ -221,6 +221,15 @@ pages:
 
 This describes where all the relevant parts of the pivio components are and how the menu structure should look like.
 
+* ``api`` : The location of the Server Rest API 
+* ``js_api`` : The location of the Rest API for Javascript, this can be different depending on Virtual Machine / Docker mix
+* ``mainurl`` : The location of the main WebView
+* ``pages`` : Describes each menu entry with
+  ** ``description`` : Text in the menu
+  ** ``url`` : The URL of this entry (can be a different machine, like a custom extension)
+  ** ``id`` : Id to use for reference
+
+
 === Running in Docker
 
 You can mount the ``pivio-conf`` volume with your own configuration file.

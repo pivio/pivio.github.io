@@ -1299,6 +1299,35 @@ pages:
 <div class="paragraph">
 <p>This describes where all the relevant parts of the pivio components are and how the menu structure should look like.</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>api</code> : The location of the REST API (mainly for backend components)</p>
+</li>
+<li>
+<p><code>js_api</code> : The location of the REST API for Javascript, this can be different depending on Virtual Machine / Docker mix</p>
+</li>
+<li>
+<p><code>mainurl</code> : The location of the main WebView</p>
+</li>
+<li>
+<p><code>pages</code> : Describes each menu entry with</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>description</code> : Text in the menu</p>
+</li>
+<li>
+<p><code>url</code> : The URL of this entry (can be a different machine, like a custom extension)</p>
+</li>
+<li>
+<p><code>id</code> : Id to use for reference</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_running_in_docker">Running in Docker</h3>
