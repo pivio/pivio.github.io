@@ -98,7 +98,7 @@ The format is key:value as in Java properties files.
 
 ==== Exit codes
 
-If a Yaml file is not a valid yaml file the client will exit with code 1.
+If a Yaml file is not a valid yaml file the client will exit with code 1 unless the switch ```piviofilenotfoundexit0``` is used (see above).
 
 ==== Dependencies & License information
 

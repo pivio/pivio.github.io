@@ -1,5 +1,6 @@
 = Pivio - Platform documentation in your source code
 :toc:
+:toclevels: 3
 :toc-position: left
 include::section-what.adoc[]
 include::section-why.adoc[]
