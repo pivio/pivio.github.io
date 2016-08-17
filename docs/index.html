@@ -518,7 +518,7 @@ runs where? What does it do? Who is responsible for that?</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>curl https://raw.githubusercontent.com/pivio/pivio-boot/master/pivio-boot.sh | /bin/sh</code></pre>
+<pre class="highlight"><code>curl https://raw.githubusercontent.com/pivio/pivio-boot/master/pivio.sh | /bin/sh</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1189,9 +1189,6 @@ get this kind of information.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code>buildscript {
-    repositories {
-        maven { url "http://javarepo.bis.epost-dev.de/nexus/content/groups/public" }
-    }
     dependencies {
          classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
     }
