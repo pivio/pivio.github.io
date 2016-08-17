@@ -10,7 +10,7 @@ You need Java 8 and Docker installed.
 Run the following command in your shell:
 
 ```
-curl https://raw.githubusercontent.com/pivio/pivio-boot/master/pivio-boot.sh | /bin/sh
+curl https://raw.githubusercontent.com/pivio/pivio-boot/master/pivio.sh | /bin/sh
 ```
 
 This will fetch all Sources, builds it, starts the server and imports some demo data.
