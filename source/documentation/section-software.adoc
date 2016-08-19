@@ -156,6 +156,18 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-license-report" % "1.0.0")
 
 Then run ``sbt dumpLicenseReport``.
 
+==== Manual License & dependencies information
+
+You can specify the dependency information in the pivio.yaml file.
+
+```
+software_dependencies:
+  - name: PHP
+    version: 3.0.1
+    licenses:
+      - name: PHP License
+        url: http://php.net/license/3_01.txt
+```
 
 === Server
 
