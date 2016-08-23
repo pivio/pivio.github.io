@@ -158,16 +158,7 @@ Then run ``sbt dumpLicenseReport``.
 
 *Manual License & dependencies information*
 
-You can specify the dependency information in the pivio.yaml file.
-
-```
-software_dependencies:
-  - name: PHP
-    version: 3.0.1
-    licenses:
-      - name: PHP License
-        url: http://php.net/license/3_01.txt
-```
+You can specify the dependency information in the pivio.yaml file. See <<section-data-format-software-dependencies, Dependencies>> for the format.
 
 === Server
 
