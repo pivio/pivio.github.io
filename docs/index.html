@@ -592,7 +592,7 @@ However, we tuned the server backed elasticsearch a bit to support the structure
 <div class="ulist">
 <ul>
 <li>
-<p>In one single <code>pivio.yaml</code> file of the root of the source code</p>
+<p>In one single <code>pivio.yaml</code> file in the vcs root of your project</p>
 </li>
 <li>
 <p>In a directory called <code>pivio</code> in the root of the source code</p>
@@ -1112,8 +1112,14 @@ specified <a href="http://localhost:9123" class="bare">http://localhost:9123</a>
                              1 in such as case.
  -serviceurl &lt;arg&gt;           The url of the pivio service (default:
                              http://localhost:9123/document).
- -source &lt;arg&gt;               The directory with the sources containing the
-                             pivio.yaml file.
+ -source &lt;arg&gt;               The directory containing the pivio.yaml file.
+                             Should be the root directory of the project.
+ -sourcecode &lt;arg&gt;           Defines the directory your source code with
+                             the build file is located in. If it is
+                             relative path, it is relative to the
+                             pivio.yaml file. This switch can also be
+                             defined with the 'PIVIO_SOURCECODE'
+                             environment variable.
  -uploadfailexit1            Fail with Exit(1) when document can not be
                              uploaded. Default is 0 in such a case.
  -verbose                    Prints more information.
@@ -1121,8 +1127,7 @@ specified <a href="http://localhost:9123" class="bare">http://localhost:9123</a>
                              read and each file is treated as self
                              contained definition of an artefact.
 
-Usage: java -jar ./pivio.jar -source /home/ci/source/customerservice
-~/Source/oliver/pivio/documentation</code></pre>
+Usage: java -jar ./pivio.jar -source /home/ci/source/customerservice</code></pre>
 </div>
 </div>
 <div class="paragraph">

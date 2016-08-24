@@ -68,8 +68,14 @@ usage: pivio
                              1 in such as case.
  -serviceurl <arg>           The url of the pivio service (default:
                              http://localhost:9123/document).
- -source <arg>               The directory with the sources containing the
-                             pivio.yaml file.
+ -source <arg>               The directory containing the pivio.yaml file.
+                             Should be the root directory of the project.
+ -sourcecode <arg>           Defines the directory your source code with
+                             the build file is located in. If it is
+                             relative path, it is relative to the
+                             pivio.yaml file. This switch can also be
+                             defined with the 'PIVIO_SOURCECODE'
+                             environment variable.
  -uploadfailexit1            Fail with Exit(1) when document can not be
                              uploaded. Default is 0 in such a case.
  -verbose                    Prints more information.
@@ -78,7 +84,6 @@ usage: pivio
                              contained definition of an artefact.
 
 Usage: java -jar ./pivio.jar -source /home/ci/source/customerservice
-~/Source/oliver/pivio/documentation
 
 ----
 

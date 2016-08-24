@@ -10,7 +10,7 @@ The examples are all in yaml format. This is just a convenience since we think i
 
 You two choices to specify your metadata of your code and services.
 
-- In one single ``pivio.yaml`` file of the root of the source code
+- In one single ``pivio.yaml`` file in the vcs root of your project
 - In a directory called ``pivio`` in the root of the source code
 
 The content is structured in both cases the same. In the single file case you need to have section as keys like ``general``, ``network`` and ``software_dependencies``. In the latter case you can split the content in multiple files in the subdirectory `pivio`. If you have both ``pivio.yaml`` and ``pivio`` directory the client should exit with an error message.
