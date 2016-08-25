@@ -190,14 +190,19 @@ context:
 
 ==== Runtime
 
-Which requirements does this service have on the runtime? This is used for sizing the machine, VM or container.
-On what kind of `host_type` is this artefact running? Values could be:
+Which requirements does this service have on the runtime? This is used for sizing the machine, VM or container. Using T-Shirt sizes
+instead of real values makes it easier to adopt the sizing for different environments. In a test environment the machines might be smaller.
+
+On what kind of `host_type` is this service running? Values could be:
 
 - Metal
 - VM
 - Docker
 
 In which `network_zone` is this service located? You choose what the values should be, e.g. DMZ, BACKEND, CORE, DATABASE.
+
+You can define the different stages where you deploy your service in the attribute `environment`. This can be used to provision your
+cluster. This way you can define if a service should roll straight to production or not.
 
 [source,yaml]
 ----
@@ -207,6 +212,10 @@ runtime:
   disk: XL
   host_type: VM
   network_zone: BACKEND
+  environment:
+    - development
+    - test
+    - production
 ----
 
 [[section-data-format-software-dependencies]]

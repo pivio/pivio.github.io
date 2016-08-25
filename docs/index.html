@@ -855,8 +855,11 @@ links:
 <div class="sect3">
 <h4 id="_runtime">Runtime</h4>
 <div class="paragraph">
-<p>Which requirements does this service have on the runtime? This is used for sizing the machine, VM or container.
-On what kind of <code>host_type</code> is this artefact running? Values could be:</p>
+<p>Which requirements does this service have on the runtime? This is used for sizing the machine, VM or container. Using T-Shirt sizes
+instead of real values makes it easier to adopt the sizing for different environments. In a test environment the machines might be smaller.</p>
+</div>
+<div class="paragraph">
+<p>On what kind of <code>host_type</code> is this service running? Values could be:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -874,6 +877,10 @@ On what kind of <code>host_type</code> is this artefact running? Values could be
 <div class="paragraph">
 <p>In which <code>network_zone</code> is this service located? You choose what the values should be, e.g. DMZ, BACKEND, CORE, DATABASE.</p>
 </div>
+<div class="paragraph">
+<p>You can define the different stages where you deploy your service in the attribute <code>environment</code>. This can be used to provision your
+cluster. This way you can define if a service should roll straight to production or not.</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-yaml" data-lang="yaml">runtime:
@@ -881,7 +888,11 @@ On what kind of <code>host_type</code> is this artefact running? Values could be
   ram: S
   disk: XL
   host_type: VM
-  network_zone: BACKEND</code></pre>
+  network_zone: BACKEND
+  environment:
+    - development
+    - test
+    - production</code></pre>
 </div>
 </div>
 </div>
