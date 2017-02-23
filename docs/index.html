@@ -496,7 +496,7 @@ great independence of the teams (which do have everything they need under their
   authentication or a central user service.</p>
 </div>
 <div class="paragraph">
-<p>A growing number of service means also a challenge not only for developers. Which service
+<p>A growing number of services means also a challenge not only for developers. Which service
 runs where? What does it do? Who is responsible for that?</p>
 </div>
 </div>
@@ -1110,6 +1110,8 @@ specified <a href="http://localhost:9123" class="bare">http://localhost:9123</a>
                              pivio.yaml. This overwrites the -source
                              switch and only information in this file will
                              be collected.
+ -generatejsonschema         Outputs the json schema for validation to the
+                             current processed yaml file.
  -gitremote &lt;arg&gt;            Uses the given argument as origin for Git VCS
                              remote detection (default: origin). This is
                              useful if you have multiple remotes
@@ -1118,22 +1120,27 @@ specified <a href="http://localhost:9123" class="bare">http://localhost:9123</a>
  -manualdependencies &lt;arg&gt;   Defines the file which holds manual defined
                              dependencies. Defaults to:
                              pivio/dependencies.yaml.
+ -out &lt;arg&gt;                  Output the generated json to this file.
+ -outattributes &lt;arg&gt;        Only output these top level attributes to the
+                             outfile, e.g. name,id,runtime.
  -piviofilenotfoundexit0     Fail with Exit(0) when a pivio document was
                              not found in the source directory. Default is
                              1 in such as case.
- -serviceurl &lt;arg&gt;           The url of the pivio service (default:
-                             http://localhost:9123/document).
+ -serviceurl &lt;arg&gt;           The url of the pivio service. If this switch
+                             is not supplied, no upload will happen.
  -source &lt;arg&gt;               The directory containing the pivio.yaml file.
                              Should be the root directory of the project.
- -sourcecode &lt;arg&gt;           Defines the directory your source code with
-                             the build file is located in. If it is
-                             relative path, it is relative to the
-                             pivio.yaml file. This switch can also be
-                             defined with the 'PIVIO_SOURCECODE'
-                             environment variable.
+ -sourcecode &lt;arg&gt;           Defines the directory (or comma-separated
+                             directories) your source code with the build
+                             file is located in. If it is relative path,
+                             it is relative to the pivio.yaml file. This
+                             switch can also be defined with the
+                             'PIVIO_SOURCECODE' environment variable.
  -uploadfailexit1            Fail with Exit(1) when document can not be
                              uploaded. Default is 0 in such a case.
  -verbose                    Prints more information.
+ -version                    Shows the version of the client and end the
+                             client.
  -yamldir &lt;arg&gt;              All *.yaml files in this directory will be
                              read and each file is treated as self
                              contained definition of an artefact.
@@ -1253,6 +1260,24 @@ downloadLicenses {
 </div>
 <div class="paragraph">
 <p>You can specify the dependency information in the pivio.yaml file. See <a href="#section-data-format-software-dependencies">Dependencies</a> for the format.</p>
+</div>
+<div class="paragraph">
+<p><strong>npm</strong></p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>You will need the license-checker to generate the license information into a file named ``dependencies.json``, which must then reside in the same folder as ``package.json``:</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[source]
+----
+npm install license-checker
+# on same folder as package.json:
+./node_modules/license-checker/bin/license-checker --json &gt; dependencies.json
+----</pre>
+</div>
 </div>
 </div>
 </div>
