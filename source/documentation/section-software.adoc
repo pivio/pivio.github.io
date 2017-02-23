@@ -175,14 +175,14 @@ You can specify the dependency information in the pivio.yaml file. See <<section
 
 *npm*
  
- You will need the license-checker to generate the license information into a file named ``dependencies.json``, which must then reside in the same folder as ``package.json``:
+You will need the license-checker to generate the license information into a file named ``dependencies.json``, which must then reside in the same folder as ``package.json``:
  
- [source]
- ----
- npm install license-checker
- # on same folder as package.json:
- ./node_modules/license-checker/bin/license-checker --json > dependencies.json
- ----
+[source]
+----
+npm install license-checker
+# on same folder as package.json:
+./node_modules/license-checker/bin/license-checker --json > dependencies.json
+----
 
 === Server
 
