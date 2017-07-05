@@ -1,7 +1,7 @@
 
 == Key concepts
 
-Pivio is in it's core a very simple idea. It's Json files in a database. The real
+Pivio is in its core a very simple idea. It's Json files in a database. The real
 value is in the data the developers provide. Pivio just collects it in a central
 place and makes it searchable.
 
