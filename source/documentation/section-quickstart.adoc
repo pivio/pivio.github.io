@@ -15,4 +15,6 @@ curl https://raw.githubusercontent.com/pivio/pivio-boot/master/pivio.sh | /bin/s
 
 This will fetch all Sources, builds it, starts the server and imports some demo data.
 
-After that you can open your browser on port 8080 to see Pivio in Action.
+After that you can open your browser on port 8080 http://localhost:8080/ to see Pivio in Action.
+
+To stop the environment use `docker-compose down`.
