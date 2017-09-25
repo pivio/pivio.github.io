@@ -62,7 +62,7 @@ Pivio needs certain *mandatory* fields:
 ===== contact
 Who should be contacted if one has a question.
 
-===== vcs
+===== vcsroot
 Where can I find the source code? A client who parses this file might choose to generate it from the code which it has at hand (if it is under source control).
 
 ===== tags
@@ -93,7 +93,7 @@ short_name: NGPS
 type: service
 owner: Team Goldfinger
 description: Prints all kinds of things. Now with 3D printing support.
-vcs: git://git.vcs.local/UBP
+vcsroot: git://git.vcs.local/UBP
 contact: Auric Goldfinger
 lifecycle: production
 tags:
@@ -267,7 +267,7 @@ You can use the ``-dry`` switch on the official client to see the transformed js
 ----
 {
   "owner": "Team Goldfinger",
-  "vcs": "git://git.vcs.local/UBP",
+  "vcsroot": "git://git.vcs.local/UBP",
   "description": "Prints all kinds of things. Now with 3D printing support.",
   "runtime": {
     "disk": "XL",
