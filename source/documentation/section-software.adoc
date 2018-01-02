@@ -32,8 +32,7 @@ This will
 2. read a generated dependency file from maven, sbt or gradle. You need to generate this information beforehand.
 3. read the vcs root information. At the moment git and svn are supported.
 
-At the end everything is converted to json and sent to the server. If none is
-specified http://localhost:9123 is assumed.
+At the end everything is converted to json and sent to the server.
 
 ==== Command Line Options
 
@@ -71,8 +70,8 @@ usage: pivio
  -piviofilenotfoundexit0     Fail with Exit(0) when a pivio document was
                              not found in the source directory. Default is
                              1 in such as case.
- -serviceurl <arg>           The url of the pivio service. If this switch
-                             is not supplied, no upload will happen.
+ -serviceurl <arg>           The URL of the pivio service. If this switch
+                             is not supplied, no upload will happen. 
  -source <arg>               The directory containing the pivio.yaml file.
                              Should be the root directory of the project.
  -sourcecode <arg>           Defines the directory (or comma-separated
