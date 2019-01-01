@@ -204,7 +204,7 @@ This is how you start the pivio-server:
 [source]
 ----
 
-java -jar build/libs/pivio-server-1.0.0.jar
+java -jar build/libs/pivio-server-1.2.0.jar
 
 ----
 
